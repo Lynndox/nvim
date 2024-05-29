@@ -2,12 +2,16 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Neovide settings
 if vim.g.neovide then
-  vim.o.guifont = 'FiraCode Nerd Font:h10'
+  vim.o.guifont = "CaskaydiaCove Nerd Font:h12"
+
+  -- Disable animations
   vim.g.neovide_scroll_animation_length = 0
   vim.g.neovide_cursor_animation_length = 0
   vim.g.neovide_cursor_trail_size = 0
+  vim.g.neovide_cursor_animate_in_insert_mode = false
+  vim.g.neovide_cursor_animate_command_line = false
+  vim.g.neovide_cursor_smooth_blink = false
 end
 
 -- Install package manager
@@ -218,7 +222,7 @@ require('lazy').setup({
 
   {
     'akinsho/bufferline.nvim',
-    version = '*',
+    -- version = '*',
     dependencies = 'nvim-tree/nvim-web-devicons',
     opts = {
       options = {
@@ -232,9 +236,14 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
+    main = "ibl",
     opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
+      indent = {
+        char = '┊',
+      },
+      whitespace = {
+        remove_blankline_trail = false,
+      },
     },
   },
 
@@ -326,6 +335,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 vim.o.tabstop = 4
+vim.o.relativenumber = true
 
 -- [[ Basic Keymaps ]]
 
