@@ -1,9 +1,10 @@
 -- Set <space> as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.opt.scrolloff = 8
 
 if vim.g.neovide then
-  vim.o.guifont = "CaskaydiaCove Nerd Font:h12"
+  vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h12"
 
   -- Disable animations
   vim.g.neovide_scroll_animation_length = 0
