@@ -1,19 +1,66 @@
 -- Set <space> as the leader key
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.scrolloff = 8
 
-if vim.g.neovide then
-  vim.o.guifont = "CaskaydiaCove Nerd Font Mono:h12"
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
 
-  -- Disable animations
-  vim.g.neovide_scroll_animation_length = 0
-  vim.g.neovide_cursor_animation_length = 0
-  vim.g.neovide_cursor_trail_size = 0
-  vim.g.neovide_cursor_animate_in_insert_mode = false
-  vim.g.neovide_cursor_animate_command_line = false
-  vim.g.neovide_cursor_smooth_blink = false
-end
+-- Make line numbers default
+vim.opt.number = true
+vim.opt.relativenumber = true
+
+-- Sync clipboard between OS and Neovim.
+vim.opt.clipboard = 'unnamedplus'
+
+-- Enable break indent
+vim.opt.breakindent = true
+
+-- Save undo history
+vim.opt.undofile = true
+
+-- Enable breaking at words
+vim.opt.linebreak = true
+
+-- Case-insensitive searching UNLESS \C or capital in search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Set highlight on search
+vim.opt.hlsearch = false
+
+-- Keep signcolumn on by default
+vim.opt.signcolumn = 'yes'
+
+-- Decrease update time
+vim.opt.updatetime = 250
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+
+-- Configure how new splits should be opened
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Preview substitutions live, as you type!
+vim.opt.inccommand = 'split'
+
+-- Show which line your cursor is on
+vim.opt.cursorline = true
+
+-- Minimal number of screen lines to keep above and below the cursor.
+vim.opt.scrolloff = 10
+
+-- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
+-- instead raise a dialog asking if you wish to save the current file(s)
+-- See `:help 'confirm'`
+vim.opt.confirm = true
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- NOTE: You should make sure your terminal supports this
+vim.o.termguicolors = true
+
+vim.o.tabstop = 4
+
 
 -- Install package manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -47,50 +94,50 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
-      { 'williamboman/mason.nvim',     config = true },
+      { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
 
-      {
-        'jose-elias-alvarez/null-ls.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        opts = function()
-          local null_ls = require 'null-ls'
-          local formatting = null_ls.builtins.formatting
-          local diagnostics = null_ls.builtins.diagnostics
-          return {
-            sources = {
-              formatting.stylua,
-              formatting.prettier,
-              formatting.eslint,
-              formatting.fish_indent,
-              diagnostics.fish,
-            },
-            on_attach = function(client, bufnr)
-              -- Enable formatting on sync
-              if client.supports_method 'textDocument/formatting' then
-                local format_on_save = vim.api.nvim_create_augroup('LspFormatting', { clear = true })
-                vim.api.nvim_create_autocmd('BufWritePre', {
-                  group = format_on_save,
-                  buffer = bufnr,
-                  callback = function()
-                    vim.lsp.buf.format {
-                      bufnr = bufnr,
-                      filter = function(_client)
-                        return _client.name == 'null-ls'
-                      end,
-                    }
-                  end,
-                })
-              end
-            end,
-          }
-        end,
-      },
-      { 'jay-babu/mason-null-ls.nvim', automatic_installation = true },
+      -- {
+      --   'jose-elias-alvarez/null-ls.nvim',
+      --   dependencies = { 'nvim-lua/plenary.nvim' },
+      --   opts = function()
+      --     local null_ls = require 'null-ls'
+      --     local formatting = null_ls.builtins.formatting
+      --     local diagnostics = null_ls.builtins.diagnostics
+      --     return {
+      --       sources = {
+      --         formatting.stylua,
+      --         formatting.prettier,
+      --         formatting.eslint,
+      --         formatting.fish_indent,
+      --         diagnostics.fish,
+      --       },
+      --       on_attach = function(client, bufnr)
+      --         -- Enable formatting on sync
+      --         if client.supports_method 'textDocument/formatting' then
+      --           local format_on_save = vim.api.nvim_create_augroup('LspFormatting', { clear = true })
+      --           vim.api.nvim_create_autocmd('BufWritePre', {
+      --             group = format_on_save,
+      --             buffer = bufnr,
+      --             callback = function()
+      --               vim.lsp.buf.format {
+      --                 bufnr = bufnr,
+      --                 filter = function(_client)
+      --                   return _client.name == 'null-ls'
+      --                 end,
+      --               }
+      --             end,
+      --           })
+      --         end
+      --       end,
+      --     }
+      --   end,
+      -- },
+      -- { 'jay-babu/mason-null-ls.nvim', automatic_installation = true },
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim',           tag = 'legacy',               opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -289,54 +336,6 @@ require('lazy').setup({
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
   -- { import = 'custom.plugins' },
 }, {})
-
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
-
--- Enable breaking at words
-vim.o.linebreak = true
-
--- Set highlight on search
-vim.o.hlsearch = false
-
--- Make line numbers default
-vim.wo.number = true
-
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or capital in search
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.wo.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-vim.o.timeout = true
-vim.o.timeoutlen = 300
-
--- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
-
--- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
-
-vim.o.tabstop = 4
-vim.o.relativenumber = true
 
 -- [[ Basic Keymaps ]]
 
