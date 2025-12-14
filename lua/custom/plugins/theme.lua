@@ -1,4 +1,5 @@
-return { -- You can easily change to a different colorscheme.
+return {
+  -- You can easily change to a different colorscheme.
   -- Change the name of the colorscheme plugin below, and then
   -- change the command in the config to whatever the name of that colorscheme is.
   --
@@ -10,14 +11,14 @@ return { -- You can easily change to a different colorscheme.
     require('tokyonight').setup {
       styles = {
         comments = { italic = false }, -- Disable italics in comments
-        keywords = { italic = false }, -- Disable italics for keywords
       },
       on_colors = function(colors)
         colors.bg = '#08080b'
-        colors.bg_float = colors.bg
-        colors.bg_popup = colors.bg
+        colors.bg_float = '#08080b'
+        colors.bg_popup = '#08080b'
       end,
     }
+
     -- Load the colorscheme here.
     -- Like many other themes, this one has different styles, and you could load
     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
